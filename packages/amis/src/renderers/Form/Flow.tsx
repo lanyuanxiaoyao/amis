@@ -51,7 +51,7 @@ export interface FlowSchema extends FormBaseControlSchema {
   /**
    * Controls
    */
-  controls?: boolean;
+  controlBar?: boolean;
   /**
    * 数据
    */
@@ -74,10 +74,9 @@ export default class FlowComponent extends React.Component<IFlowProps> {
       className,
       onChange,
       render,
-      components,
-      data
+      components
     } = this.props;
-    const props = pick(this.props, ['source', 'miniMap', 'controls']);
+    const props = pick(this.props, ['source', 'miniMap', 'controlBar']);
     const nodeTypes: Record<string, CustomNodeComponentSchema> =
       components?.nodes ?? {};
 

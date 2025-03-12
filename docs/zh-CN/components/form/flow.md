@@ -19,47 +19,110 @@ order: 100
             "name": "flow-data",
             "label": "流程图",
             "type": "flow",
+            "controlBar": true,
             "source": {
                 "nodes": [
+                    {
+                        "id": "1",
+                        "position": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "data": {
+                            "label": "开始"
+                        },
+                        "type": "input"
+                    },
                     {
                         "id": "2",
                         "position": {
                             "x": 100,
                             "y": 100
                         },
+                        "data": {
+                            "llm": "deepseek-r1",
+                            "topp": 0.5
+                        },
                         "type": "form-node"
                     },
                     {
-                        "id": "5",
+                        "id": "3",
                         "position": {
-                            "x": 300,
-                            "y": 100
+                            "x": 400,
+                            "y": 560
                         },
                         "data": {
-                            "name": "Tony"
+                            "label": "结束"
                         },
-                        "type": "form-node"
+                        "type": "output"
                     },
                 ],
-                "edges": []
+                "edges": [
+                    {
+                        "id": "1-2",
+                        "source": "1",
+                        "target": "2",
+                        "markerEnd": {
+                            "type": "arrow"
+                        },
+                        "label": "Start"
+                    },
+                    {
+                        "id": "2-3",
+                        "source": "2",
+                        "target": "3",
+                        "markerEnd": {
+                            "type": "arrowclosed"
+                        },
+                        "label": "End"
+                    }
+                ]
             },
             "components": {
                 "nodes": {
                     "form-node": {
                         "body": {
-                            "title": "表单节点",
+                            "title": "大模型",
                             "type": "form",
+                            "mode": "horizontal",
+                            "horizontal": {
+                                "leftFixed": "sm"
+                            },
                             "actions": [],
                             "body": [
                                 {
-                                    "type": "input-text",
-                                    "name": "name",
-                                    "label": "姓名："
+                                    "label": "模型",
+                                    "type": "select",
+                                    "name": "llm",
+                                    "options": [
+                                        {
+                                            "label": "Deepseek R1",
+                                            "value": "deepseek-r1"
+                                        },
+                                        {
+                                            "label": "Deepseek V3",
+                                            "value": "deepseek-v3"
+                                        }
+                                    ]
                                 },
                                 {
-                                    "name": "email",
-                                    "type": "input-email",
-                                    "label": "邮箱："
+                                    "type": "textarea",
+                                    "name": "system",
+                                    "label": "系统提示词"
+                                },
+                                {
+                                    "type": "textarea",
+                                    "name": "user",
+                                    "label": "用户提示词"
+                                },
+                                {
+                                    "type": "input-range",
+                                    "label": "Top P",
+                                    "name": "topp",
+                                    "min": 0,
+                                    "max": 1,
+                                    "step": 0.01,
+                                    "showInput": true
                                 }
                             ]
                         }
@@ -100,7 +163,7 @@ React Flow 提供的默认样式，`type`为`input`为只有输出没有输入�
                     {
                         "id": "2",
                         "position": {
-                            "x": 0,
+                            "x": 100,
                             "y": 100
                         },
                         "data": {
@@ -110,7 +173,7 @@ React Flow 提供的默认样式，`type`为`input`为只有输出没有输入�
                     {
                         "id": "3",
                         "position": {
-                            "x": 0,
+                            "x": 200,
                             "y": 200
                         },
                         "data": {
@@ -118,12 +181,26 @@ React Flow 提供的默认样式，`type`为`input`为只有输出没有输入�
                         },
                         "type": "output"
                     },
+                ],
+                "edges": [
+                    {
+                        "id": "1-2",
+                        "source": "1",
+                        "target": "2"
+                    },
+                    {
+                        "id": "2-3",
+                        "source": "2",
+                        "target": "3"
+                    }
                 ]
             },
         }
     ]
 }
 ```
+
+## 自定义节点
 
 ## 属性表
 

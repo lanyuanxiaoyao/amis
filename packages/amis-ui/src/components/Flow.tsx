@@ -26,11 +26,30 @@ import {LocaleProps, localeable} from 'amis-core';
 import '@xyflow/react/dist/style.css';
 import {isString} from 'lodash';
 
+const DnDContext = React.createContext([null, () => {}]);
+
+const DnDProvider = ({children}: any) => {
+  const [type, setType] = React.useState<any>(null);
+  return <DnDProvider value={[type, setType]}>{children}</DnDProvider>;
+};
+
+const useDnD = () => React.useContext(DnDContext);
+
+const AsideBar: React.FC<{}> = props => {
+  const [type, setType] = useDnD();
+
+  return (
+    <>
+      <aside></aside>
+    </>
+  );
+};
+
 export interface FlowProps extends LocaleProps, ThemeProps {
   source?: string | object;
   value?: string | object;
   miniMap?: boolean;
-  controls?: boolean;
+  controlBar?: boolean;
   nodeTypes?: string[];
   nodeRender?: (
     id: string,
@@ -121,7 +140,7 @@ const Flow: React.FC<FlowProps> = props => {
         nodeTypes={nodeTypes}
         fitView
       >
-        {props.controls && <Controls />}
+        {props.controlBar && <Controls />}
         {props.miniMap && <MiniMap />}
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
