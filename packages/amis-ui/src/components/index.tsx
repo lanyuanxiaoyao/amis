@@ -141,6 +141,7 @@ import OverflowTpl from './OverflowTpl';
 import Signature from './Signature';
 import VerificationCode from './VerificationCode';
 import Slider from './Slider';
+import Flow from './Flow';
 
 import Shape from './Shape';
 import type {IShapeType} from './Shape';
@@ -297,5 +298,6 @@ export {
   AlphabetIndexer,
   Slider,
   HorizontalScroll,
-  HorizontalScrollProps
+  HorizontalScrollProps,
+  Flow
 };

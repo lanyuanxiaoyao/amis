@@ -804,6 +804,15 @@ export const components = [
             '../../docs/zh-CN/components/form/input-verification-code.md'
           ).then(wrapDoc)
         )
+      },
+      {
+        label: 'Flow 流程图',
+        path: '/zh-CN/components/form/flow',
+        component: React.lazy(() =>
+          import(
+            '../../docs/zh-CN/components/form/flow.md'
+          ).then(wrapDoc)
+        )
       }
     ]
   },

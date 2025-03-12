@@ -511,6 +511,10 @@ registerRenderer({
   type: 'input-verification-code',
   getComponent: () => import('./renderers/Form/InputVerificationCode')
 });
+registerRenderer({
+  type: 'flow',
+  getComponent: () => import('./renderers/Form/Flow')
+});
 import './renderers/Grid';
 // import './renderers/Grid2D';
 registerRenderer({

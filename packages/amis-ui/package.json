@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@rc-component/mini-decimal": "^1.0.1",
+    "@xyflow/react": "^12.4.4",
     "amis-core": "*",
     "amis-formula": "*",
     "animate.css": "4.1.1",
