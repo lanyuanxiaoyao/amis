@@ -77,45 +77,18 @@ export default class FlowComponent extends React.Component<IFlowProps> {
       components
     } = this.props;
     const props = pick(this.props, ['source', 'miniMap', 'controlBar']);
-    const nodeTypes: Record<string, CustomNodeComponentSchema> =
-      components?.nodes ?? {};
 
-    const nodeRender = (
-      id: string,
-      type: string,
-      nodeData: Record<string, any>,
-      onNodeFormChange: (id: string, value: any) => void
-    ): JSX.Element => {
-      let typeDefine = nodeTypes[type];
-      return (
-        <>
-          <div className="body-container">
-            {typeDefine?.title && (
-              <div className="body-title">{typeDefine.title}</div>
-            )}
-            <div className="nodrag nopan">
-              {typeDefine.body.type === 'form'
-                ? render(`${type}-${id}`, typeDefine.body, {
-                    data: {...nodeData},
-                    onChange: (value: any) => onNodeFormChange(id, value)
-                  })
-                : render(`${type}-${id}`, typeDefine.body, {
-                    data: {...nodeData}
-                  })}
-            </div>
-          </div>
-        </>
-      );
-    };
     return (
       <>
         <Flow
           classnames={cx}
           className={className}
           onChange={onChange}
-          nodeTypes={keys(nodeTypes)}
-          nodeRender={nodeRender}
-          {...props}
+          nodeTypesDefine={components?.nodes ?? {}}
+          render={render}
+          source={props.source}
+          miniMap={props.miniMap ?? false}
+          controlBar={props.controlBar ?? false}
         />
       </>
     );

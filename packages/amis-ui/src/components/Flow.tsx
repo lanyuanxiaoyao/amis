@@ -27,7 +27,7 @@ import {Position, Connection, EdgeBase} from '@xyflow/system';
 import {themeable, ThemeProps} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import '@xyflow/react/dist/style.css';
-import {isString, uniqueId} from 'lodash';
+import {isString, keys, uniqueId} from 'lodash';
 
 const AsideBar: React.FC<{}> = () => {
   const onDragStart = (event: any, nodeType: string) => {
@@ -70,20 +70,26 @@ const AsideBar: React.FC<{}> = () => {
 export interface FlowProps extends LocaleProps, ThemeProps {
   source?: string | object;
   value?: string | object;
-  miniMap?: boolean;
-  controlBar?: boolean;
-  nodeTypes?: string[];
-  nodeRender?: (
-    id: string,
-    type: string,
-    nodeData: Record<string, any>,
-    onNodeFormChange: (id: string, value: any) => void
+  miniMap: boolean;
+  controlBar: boolean;
+  nodeTypesDefine: Record<string, {title?: string; body: any}>;
+  render: (
+    region: string,
+    node: any,
+    props?: {[propsName: string]: any}
   ) => JSX.Element;
   onChange?: (value?: string | object) => void;
 }
 
 const Flow: React.FC<FlowProps> = props => {
-  const {translate: __, classnames: cx, className, onChange} = props;
+  const {
+    translate: __,
+    classnames: cx,
+    className,
+    onChange,
+    render,
+    nodeTypesDefine
+  } = props;
   const [data, setData] = React.useState<any | undefined>(props.source);
   React.useEffect(() => setData(props.value), [props.value]);
 
@@ -119,7 +125,7 @@ const Flow: React.FC<FlowProps> = props => {
 
   const nodeTypes = React.useMemo(() => {
     let types: NodeTypes = {};
-    props.nodeTypes?.forEach(nodeType => {
+    keys(nodeTypesDefine ?? {}).forEach(nodeType => {
       types[nodeType] = ({id, type, data}) => {
         const onNodeFormChange = (id: string, value: any) => {
           setNodes(nodes =>
@@ -137,12 +143,25 @@ const Flow: React.FC<FlowProps> = props => {
             })
           );
         };
+        let typeDefine = nodeTypesDefine[type]!;
         return (
           <>
             <Handle type="target" position={Position.Top} />
-            {props.nodeRender
-              ? props.nodeRender(id, type, data, onNodeFormChange)
-              : null}
+            <div className="body-container">
+              {typeDefine?.title && (
+                <div className="body-title">{typeDefine.title}</div>
+              )}
+              <div className="nodrag nopan">
+                {typeDefine.body.type === 'form'
+                  ? render(`${type}-${id}`, typeDefine.body, {
+                      data: data,
+                      onChange: (value: any) => onNodeFormChange(id, value)
+                    })
+                  : render(`${type}-${id}`, typeDefine.body, {
+                      data: data
+                    })}
+              </div>
+            </div>
             <Handle type="source" position={Position.Bottom} />
           </>
         );
