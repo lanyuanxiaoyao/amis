@@ -60,6 +60,14 @@ export interface FlowSchema extends FormBaseControlSchema {
    * 自定义组件
    */
   components?: CustomFlowComponentSchema;
+  /**
+   * 新增面板
+   */
+  addBar?: boolean;
+  /**
+   * 新增面板样式
+   */
+  addBarMode?: 'select' | 'drag';
 }
 
 export interface IFlowProps extends FormControlProps {}
@@ -76,8 +84,6 @@ export default class FlowComponent extends React.Component<IFlowProps> {
       render,
       components
     } = this.props;
-    const props = pick(this.props, ['source', 'miniMap', 'controlBar']);
-
     return (
       <>
         <Flow
@@ -86,9 +92,11 @@ export default class FlowComponent extends React.Component<IFlowProps> {
           onChange={onChange}
           nodeTypesDefine={components?.nodes ?? {}}
           render={render}
-          source={props.source}
-          miniMap={props.miniMap ?? false}
-          controlBar={props.controlBar ?? false}
+          source={this.props.source}
+          miniMap={this.props.miniMap ?? false}
+          controlBar={this.props.controlBar ?? false}
+          addBar={this.props.addBar ?? false}
+          addBarMode={this.props.addBarMode ?? 'select'}
         />
       </>
     );

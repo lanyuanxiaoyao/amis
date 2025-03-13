@@ -72,6 +72,8 @@ export interface FlowProps extends LocaleProps, ThemeProps {
   value?: string | object;
   miniMap: boolean;
   controlBar: boolean;
+  addBar: boolean;
+  addBarMode: 'select' | 'drag';
   nodeTypesDefine: Record<string, {title?: string; body: any}>;
   render: (
     region: string,
